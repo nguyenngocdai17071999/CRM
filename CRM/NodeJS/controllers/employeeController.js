@@ -13,18 +13,15 @@ var { Employee } = require('../models/employee');
 // => localhost:3000/employees/
 router.get('/', auth, async (req, res) => {
     const user = await User.findById(req.user.id);
-    if (user.role == "1") {
-        Employee.find((err, docs) => {
-            if (!err) { res.send(docs); }
-            else { console.log('Error in Retriving Employees :' + JSON.stringify(err, undefined, 2)); }
-        });
-    }
-    else {
-        res.send(" You don't have permission");
-    }
+
+    Employee.find((err, docs) => {
+        if (!err) { res.send(docs); }
+        else { console.log('Error in Retriving Employees :' + JSON.stringify(err, undefined, 2)); }
+    });
+
 });
 
-router.get('/:id', auth, (req, res) => {
+router.get('/:id', auth,async (req, res) => {
     if (!ObjectId.isValid(req.params.id))
         return res.status(400).send(`No record with given id : ${req.params.id}`);
 
@@ -34,7 +31,7 @@ router.get('/:id', auth, (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', auth,async (req, res) => {
     const user = await User.findById(req.user.id);
     if (user.role == "1") {
         var emp = new Employee({
@@ -53,7 +50,7 @@ router.post('/', (req, res) => {
     }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', auth,async (req, res) => {
     const user = await User.findById(req.user.id);
     if (user.role == "1") {
         if (!ObjectId.isValid(req.params.id))
@@ -75,7 +72,7 @@ router.put('/:id', (req, res) => {
     }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth,async (req, res) => {
     const user = await User.findById(req.user.id);
     if (user.role == "1") {
         if (!ObjectId.isValid(req.params.id))
