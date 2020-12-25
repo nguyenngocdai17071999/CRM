@@ -21,7 +21,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient,public router: Router){}
 
   register(user: User): Observable<any> {
-    console.log(user)
+    //console.log(user)
     return this.httpClient.post(`${this.API_URL}/user/signup`, user ).pipe(
         catchError(this.handleError)
     )

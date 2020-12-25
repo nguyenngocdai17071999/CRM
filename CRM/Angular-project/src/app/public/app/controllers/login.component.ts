@@ -35,6 +35,9 @@ export class LoginComponent implements OnInit {
   loginUser() {
     this.authService.login(this.loginForm.value)
   }
+  registerUser() {
+    this.router.navigate(['register']);
+  }
   signInWithGoogle(): void {
     this.SocialauthService.signIn(GoogleLoginProvider.PROVIDER_ID);
     this.router.navigate(['profile']);
